@@ -5,7 +5,10 @@ import { PrismaService } from '../prisma/prisma.service.js';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  getUserList(): any {
-    return this.prisma.user.findMany();
+  getUserList() {
+    return this.prisma.user.findMany({
+      select: { id: true, username: true, email: true, createdAt: true },
+      orderBy: { createdAt: 'desc' },
+    });
   }
 }

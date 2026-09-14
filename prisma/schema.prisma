@@ -9,7 +9,7 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url = "mongodb+srv://dbUser:12345@cluster0.z9i1tjw.mongodb.net/my_db"
+  url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -18,8 +18,11 @@ enum Role {
 }
 
 model User {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  username    String
-  password    String
-  role        Role
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  username  String   @unique
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
